@@ -62,7 +62,7 @@ var arr = [
  *   We only need to flatten objects
  */
 function mutateArray(a) {
-  return a.map((entry) =>
+  const flattened = a.map((entry) =>
     Object.entries(entry).reduce((acc, [key, value]) =>
       $.isPlainObject(value) ? {
         ...acc,
@@ -71,6 +71,13 @@ function mutateArray(a) {
         ...acc,
         [key]: value,
       }, {}));
+
+  return flattened.map((entry) => Object.entries(entry).reduce((acc, [key, value]) => ({
+    ...acc,
+    [key]: Array.isArray(value) && value.every((num) => $.isNumeric(num))
+      ? value.reduce((acc, num) => acc + num, 0)
+      : value,
+  }), {}));
 }
 
 $(document).ready(function () {
