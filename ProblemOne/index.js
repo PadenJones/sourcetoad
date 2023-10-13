@@ -55,8 +55,22 @@ var arr = [
   },
 ];
 
+/**
+ * Assumptions:
+ *   We should flatten any field, not only 'guest_booking'
+ *   We are only flattening 1-level deep
+ *   We only need to flatten objects
+ */
 function mutateArray(a) {
-  return a;
+  return a.map((entry) =>
+    Object.entries(entry).reduce((acc, [key, value]) =>
+      $.isPlainObject(value) ? {
+        ...acc,
+        ...value,
+      } : {
+        ...acc,
+        [key]: value,
+      }, {}));
 }
 
 $(document).ready(function () {
