@@ -62,7 +62,9 @@ var arr = [
  *   We only need to flatten objects
  */
 function mutateArray(a) {
-  const flattened = a.map((entry) =>
+  const filtered = a.filter(entry => entry.guest_type === 'guest');
+
+  const flattened = filtered.map((entry) =>
     Object.entries(entry).reduce((acc, [key, value]) =>
       $.isPlainObject(value) ? {
         ...acc,
