@@ -64,6 +64,23 @@ var arr = [
 function mutateArray(a) {
   const filtered = a.filter(entry => entry.guest_type === 'guest');
 
+  filtered.sort((lhs, rhs) => {
+    const lhsFullName = `${lhs.last_name} ${lhs.first_name}`;
+    const rhsFullName = `${rhs.last_name} ${rhs.first_name}`;
+
+    if (lhsFullName > rhsFullName) {
+      return 1;
+    }
+
+    if (lhsFullName === rhsFullName) {
+      return 0;
+    }
+
+    if (lhsFullName < rhsFullName) {
+      return -1;
+    }
+  })
+
   const flattened = filtered.map((entry) =>
     Object.entries(entry).reduce((acc, [key, value]) =>
       $.isPlainObject(value) ? {
